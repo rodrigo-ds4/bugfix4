@@ -74,6 +74,10 @@ class YamlLintConfig:
 
     def parse(self, raw_content):
         """Parse YAML configuration content and set up rules and other options."""
+        # Check for empty or whitespace-only configuration
+        if not raw_content or not raw_content.strip():
+            raise YamlLintConfigError('invalid config: not a dict')
+            
         try:
             conf = yaml.safe_load(raw_content) or {}
         except yaml.error.YAMLError as e:
